@@ -6,7 +6,10 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.junit.Assert;
@@ -46,19 +49,18 @@ public class SearchSteps{
         // BROWSER => chrome / firefox
         // HUB_HOST => localhost / 10.0.1.3 / hostname
         String host = "localhost";
-        DesiredCapabilities dc;
+        MutableCapabilities dc;
 
         if(System.getProperty("BROWSER") != null &&
                 System.getProperty("BROWSER").equalsIgnoreCase("firefox")){
-            dc = DesiredCapabilities.firefox();
+            dc = new FirefoxOptions();
         }else{
-            dc = DesiredCapabilities.chrome();
+            dc = new ChromeOptions();
         }
 
         if(System.getProperty("HUB_HOST") != null){
             host = System.getProperty("HUB_HOST");
         }
-
         String completeUrl = "http://" + host + ":4444/wd/hub";
         this.driver = new RemoteWebDriver(new URL(completeUrl), dc);
     }
